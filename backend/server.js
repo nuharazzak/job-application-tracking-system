@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import healthRoutes from "./routes/healthRoutes.js";
 import { statusCode, errorHandler } from "./middleware/errorMiddleware.js";
 import authRoutes from "./routes/authRoutes.js";
+import applicationRoutes from "./routes/applicationRoutes.js";
 
 dotenv.config();
 
@@ -22,6 +23,8 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/applications", applicationRoutes);
+
 
 // Test route
 app.get("/", (req, res) => {

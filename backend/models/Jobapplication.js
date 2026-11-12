@@ -1,17 +1,17 @@
-import mangoose from "mongoose";
+import mongoose from "mongoose";
 
-const JobApplicationSchema = new mangoose.Schema({
+const JobApplicationSchema = new mongoose.Schema({
     user:{
-        type : mangoose.Schema.Types.ObjectId,
+        type : mongoose.Schema.Types.ObjectId,
         ref : "User",
         required:true
     },
-    Company:{
+    company:{
         type:String,
         required:true,
         trim:true
     },
-    Position:{
+    position:{
         type:String,
         required:true,
         trim:true
@@ -70,6 +70,6 @@ const JobApplicationSchema = new mangoose.Schema({
 
 );
 
-const JobApplication = mangoose.model("JobApplication", JobApplicationSchema);
+const JobApplication = mongoose.model("JobApplication", JobApplicationSchema);
 
 export default JobApplication;
