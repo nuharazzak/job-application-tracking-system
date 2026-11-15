@@ -1,30 +1,44 @@
 import { createContext, useContext, useState } from "react";
 
-//create authentication context
+// Create authentication context
 const AuthContext = createContext();
 
 // Create Auth Provider
-export const AuthProvider = ({ children}) => {
+export const AuthProvider = ({ children }) => {
 
     // Get token from localStorage
     const [token, setToken] = useState(
-        localStorage.getItem('token')
+        localStorage.getItem("token")
     );
 
     // Get user information from localStorage
     const [user, setUser] = useState(() => {
-        const storedUser = localStorage.getItem('user');
+        const storedUser = localStorage.getItem("user");
 
-        return storedUser ? JSON.parse(storedUser) : null;
+        try {
+            return storedUser && storedUser !== "undefined"
+                ? JSON.parse(storedUser)
+                : null;
+        } catch (error) {
+            console.error("Invalid user data in localStorage:", error);
+
+            localStorage.removeItem("user");
+
+            return null;
+        }
     });
 
-     // Login function
+    // Login function
     const login = (userData, tokenData) => {
 
-        localStorage.setItem('token', tokenData);
+        if (!userData || !tokenData) {
+            throw new Error("User data or token is missing.");
+        }
+
+        localStorage.setItem("token", tokenData);
 
         localStorage.setItem(
-            'user',
+            "user",
             JSON.stringify(userData)
         );
 
@@ -32,17 +46,17 @@ export const AuthProvider = ({ children}) => {
         setUser(userData);
     };
 
-     // Logout function
+    // Logout function
     const logout = () => {
 
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
 
         setToken(null);
         setUser(null);
     };
 
-     return (
+    return (
         <AuthContext.Provider
             value={{
                 user,
@@ -61,4 +75,3 @@ export const AuthProvider = ({ children}) => {
 export const useAuth = () => {
     return useContext(AuthContext);
 };
-

@@ -14,43 +14,61 @@ const Navbar = () => {
     };
 
     return (
-        <nav>
 
-            <h2>JobTracker</h2>
+        <nav className="bg-white shadow-sm border-b border-gray-200">
 
-            <div>
+            <div className="px-6">
 
-                {isAuthenticated ? (
+                <div className="flex justify-between items-center h-16">
 
-                    <>
-                        <span>Welcome, {user?.name}</span>
+                    {/* Logo */}
+                    <Link
+                        to={isAuthenticated ? "/dashboard" : "/login"}
+                        className="text-2xl font-bold text-blue-600"
+                    >
+                        JobTracker
+                    </Link>
 
-                        <Link to="/dashboard">
-                            Dashboard
-                        </Link>
+                    {/* Navigation */}
+                    <div className="flex items-center gap-6">
 
-                        <button onClick={handleLogout}>
-                            Logout
-                        </button>
-                    </>
+                        {isAuthenticated ? (
 
-                ) : (
+                            <>
+                                <span className="text-gray-700">
+                                    Welcome, {user?.name}
+                                </span>
 
-                    <>
-                        <Link to="/login">
-                            Login
-                        </Link>
+                                <button
+                                    onClick={handleLogout}
+                                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
+                                >
+                                    Logout
+                                </button>
+                            </>
 
-                        <Link to="/register">
-                            Register
-                        </Link>
-                    </>
+                        ) : (
 
-                )}
+                            <>
+                                <Link to="/login">
+                                    Login
+                                </Link>
+
+                                <Link to="/register">
+                                    Register
+                                </Link>
+                            </>
+
+                        )}
+
+                    </div>
+
+                </div>
 
             </div>
 
         </nav>
+
     );
 };
 
